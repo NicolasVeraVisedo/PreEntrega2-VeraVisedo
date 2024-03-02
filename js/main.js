@@ -23,8 +23,6 @@ function saludar() {
   return nombrePaciente;
 }
 
-//console.log("Nombre del Paciente fuera de la funcion: " + nombrePaciente);
-
 function internacionHospitalaria() {
   let valido = false;
   while (!valido) {
@@ -86,9 +84,6 @@ function internacionHospitalaria() {
   return { noches, costoInternacion };
 }
 
-//console.log("Noches fuera de la funcion: " + noches);
-//console.log("costo internacion fuera de la funcion: " + costoInternacion);
-
 function cuidadosMedicos() {
   let valido = false;
   while (!valido) {
@@ -142,9 +137,6 @@ function cuidadosMedicos() {
   return { diasCuidado, costoCuidado };
 }
 
-//console.log("Dias cuidado fuera de la funcion: " + diasCuidado);
-//console.log("costo cuidado fuera de la funcion: " + costoCuidado);
-
 function transporteHospital() {
   let valido = false;
   while (!valido) {
@@ -194,9 +186,6 @@ function transporteHospital() {
 
   return { tipoTransporte, costoTransporte };
 }
-
-//console.log("Tipo transporte fuera de la funcion: " + tipoTransporte);
-//console.log("costo transporte fuera de la funcion: " + costoTransporte);
 
 function calcularPresupuesto() {
   let sumaTotal = costoInternacion + costoCuidado + costoTransporte;
@@ -259,7 +248,7 @@ ejecutarSimulador();
 
 // Pre-entrega 2 :
 
-// Array de productos y servicios
+// Array de servicios
 const serviciosArray = [
   {
     nombre: "Internacion",
