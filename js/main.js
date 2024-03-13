@@ -251,19 +251,31 @@ function transporteHospital() {
         while (!verftipoPropio) {
           tipoPropio = prompt("Ingrese su tipo de transporte:");
           if (tipoPropio && tipoPropio.trim() && isNaN(tipoPropio)) {
-            tipoTransporte = tipoPropio;
-            valido = true;
-            verftipoPropio = true;
-            serviciosArray.push(
-              new Servicio(
-                "Transporte",
-                "Transporte " + tipoPropio + " para traslado al hospital",
-                0
-              )
-            ); // Agregar el transporte propio al array de servicios
-            alert(
-              `Se ha agregado su propio transporte (${tipoPropio}) al registro.`
+            const servicioExistente = serviciosArray.find((servicio) =>
+              servicio.descripcion.includes(tipoPropio)
             );
+            if (servicioExistente) {
+              tipoTransporte = tipoPropio;
+              valido = true;
+              verftipoPropio = true;
+              alert(
+                `Ha seleccionado el transporte (${tipoPropio}) que ya estaba en el registro.`
+              );
+            } else {
+              serviciosArray.push(
+                new Servicio(
+                  "Transporte",
+                  "Transporte " + tipoPropio + " para traslado al hospital",
+                  0
+                )
+              ); // Agregar el transporte propio al array de servicios
+              tipoTransporte = tipoPropio;
+              valido = true;
+              verftipoPropio = true;
+              alert(
+                `Se ha agregado su propio transporte (${tipoPropio}) al registro.`
+              );
+            }
           } else {
             alert(
               "Por favor, ingrese su tipo de transporte propio correctamente."
