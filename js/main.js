@@ -9,7 +9,7 @@ class Servicio {
 }
 
 //Declaración de variables
-let serviciosArray = [];
+const serviciosArray = [];
 let costoInternacion = 0;
 let costoCuidado = 0;
 let costoTransporte = 0;
@@ -249,8 +249,15 @@ function transporteHospital() {
         break;
       case "4":
         while (!verftipoPropio) {
-          tipoPropio = prompt("Ingrese su tipo de transporte:");
-          if (tipoPropio && tipoPropio.trim() && isNaN(tipoPropio)) {
+          tipoPropio = prompt(
+            "Ingrese su tipo de transporte (Minimo 3 caracteres):"
+          );
+          if (
+            tipoPropio &&
+            tipoPropio.trim() &&
+            isNaN(tipoPropio) &&
+            tipoPropio.trim().length >= 3
+          ) {
             const servicioExistente = serviciosArray.find((servicio) =>
               servicio.descripcion.includes(tipoPropio)
             );
