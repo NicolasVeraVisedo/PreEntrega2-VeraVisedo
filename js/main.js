@@ -1,5 +1,15 @@
-// Pre-entrega 1 :
+//Declaración de Clases Constructoras
 
+class Servicio {
+  constructor(nombre, descripcion, precio) {
+    this.nombre = nombre;
+    this.descripcion = descripcion;
+    this.precio = precio;
+  }
+}
+
+//Declaración de variables
+let serviciosArray = [];
 let costoInternacion = 0;
 let costoCuidado = 0;
 let costoTransporte = 0;
@@ -7,7 +17,82 @@ let noches = 0;
 let diasCuidado = 0;
 let tipoTransporte = "No seleccionado";
 let nombrePaciente;
+let msj;
+let descuentoAplicado = false; // Bandera para indicar si el descuento de la Ambulancia ya se aplicó
 
+// Creación de los objetos Servicio y almacenamiento en el array servicios
+serviciosArray.push(
+  new Servicio("Internacion", "4 noches de internacion", 350)
+);
+serviciosArray.push(
+  new Servicio("Internacion", "5 noches de internacion", 450)
+);
+serviciosArray.push(
+  new Servicio("Internacion", "6 noches de internacion", 550)
+);
+serviciosArray.push(
+  new Servicio("Internacion", "7 noches de internacion", 650)
+);
+serviciosArray.push(
+  new Servicio("Internacion", "8 noches de internacion", 750)
+);
+serviciosArray.push(
+  new Servicio("Cuidados medicos", "4 dias de cuidados medicos", 400)
+);
+serviciosArray.push(
+  new Servicio("Cuidados medicos", "5 dias de cuidados medicos", 450)
+);
+serviciosArray.push(
+  new Servicio("Cuidados medicos", "6 dias de cuidados medicos", 500)
+);
+serviciosArray.push(
+  new Servicio("Cuidados medicos", "7 dias de cuidados medicos", 550)
+);
+serviciosArray.push(
+  new Servicio(
+    "Transporte",
+    "Transporte Coche Exclusivo para traslado al hospital",
+    80
+  )
+);
+serviciosArray.push(
+  new Servicio(
+    "Transporte",
+    "Transporte Ambulancia para traslado al hospital",
+    60
+  )
+);
+serviciosArray.push(
+  new Servicio("Transporte", "Transporte Publico para traslado al hospital", 20)
+);
+
+console.log(serviciosArray);
+
+//Funcion para mostrar un mensaje al paciente del servicio seleccionado con su descripcion y precio
+function mensajes(el) {
+  return `Seleccionaste:
+
+  Servicio: ${el.nombre}
+  Descripción: ${el.descripcion}
+  Precio: $${el.precio}`;
+}
+
+// Función para buscar un servicio por su descripcion (usado para el caso de los servicios de transporte)
+function buscarServicio(parametro) {
+  return serviciosArray.filter((el) => el.descripcion.includes(parametro));
+}
+
+//Descuento del 10% por elegir Ambulancia
+function aplicarDescuento(arr) {
+  return arr.map((transporteDescuento) => {
+    if (transporteDescuento.descripcion.includes("Ambulancia")) {
+      transporteDescuento.precio *= 0.9; // Aplica un descuento del 10%
+    }
+    return transporteDescuento;
+  });
+}
+
+//Bienvenida e ingreso de nombre del paciente
 function saludar() {
   let nombreValido = false;
   alert("¡Bienvenido/a al servicio de Internación del Hospital M. Quiroga!");
@@ -23,6 +108,7 @@ function saludar() {
   return nombrePaciente;
 }
 
+//Eleccion de cantidad de noches para el servicio internacion
 function internacionHospitalaria() {
   let valido = false;
   while (!valido) {
@@ -34,29 +120,19 @@ function internacionHospitalaria() {
 
     switch (noches) {
       case "4":
-        costoInternacion = 350;
         valido = true;
-        console.log("costo internacion 4 en el switch: $" + costoInternacion);
         break;
       case "5":
-        costoInternacion = 450;
         valido = true;
-        console.log("costo internacion 5 en el switch: $" + costoInternacion);
         break;
       case "6":
-        costoInternacion = 550;
         valido = true;
-        console.log("costo internacion 6 en el switch: $" + costoInternacion);
         break;
       case "7":
-        costoInternacion = 650;
         valido = true;
-        console.log("costo internacion 7 en el switch: $" + costoInternacion);
         break;
       case "8":
-        costoInternacion = 750;
         valido = true;
-        console.log("costo internacion 8 en el switch: $" + costoInternacion);
         break;
       default:
         alert(
@@ -65,16 +141,19 @@ function internacionHospitalaria() {
         break;
     }
 
-    if (valido && costoInternacion > 0) {
-      alert(
-        "Seleccionaste " +
-          noches +
-          " noches de internación en el hospital, el precio es de: $" +
-          costoInternacion
+    if (valido) {
+      //Filtra en el array de servicios, lo que desea el paciente
+      const buscar = serviciosArray.filter(
+        (elemento) =>
+          elemento.nombre.includes("Internacion") &&
+          elemento.descripcion.includes(noches)
       );
-    } else {
-      noches = 0;
-      costoInternacion = 0;
+      console.log(buscar);
+      costoInternacion = buscar[0].precio;
+      console.log(costoInternacion);
+      msj = buscar.map(mensajes);
+      //console.log(msj);
+      alert(msj);
     }
   }
   alert(
@@ -84,6 +163,7 @@ function internacionHospitalaria() {
   return { noches, costoInternacion };
 }
 
+//Eleccion de cantidad de dias para el servicio de cuidados medicos
 function cuidadosMedicos() {
   let valido = false;
   while (!valido) {
@@ -95,24 +175,16 @@ function cuidadosMedicos() {
     );
     switch (diasCuidado) {
       case "5":
-        costoCuidado = 400;
         valido = true;
-        console.log("costo cuidado 5 en el switch: $" + costoCuidado);
         break;
       case "6":
-        costoCuidado = 450;
         valido = true;
-        console.log("costo cuidado 6 en el switch: $" + costoCuidado);
         break;
       case "7":
-        costoCuidado = 500;
         valido = true;
-        console.log("costo cuidado 7 en el switch: $" + costoCuidado);
         break;
       case "8":
-        costoCuidado = 550;
         valido = true;
-        console.log("costo cuidado 8 en el switch: $" + costoCuidado);
         break;
       default:
         alert(
@@ -121,13 +193,18 @@ function cuidadosMedicos() {
         break;
     }
 
-    if (valido && costoCuidado > 0) {
-      alert(
-        "Seleccionaste " +
-          diasCuidado +
-          " dias de cuidados medicos, el precio es de: $" +
-          costoCuidado
+    if (valido) {
+      //Filtra en el array de servicios, lo que desea el paciente
+      const buscar2 = serviciosArray.filter(
+        (elemento) =>
+          elemento.nombre.includes("Cuidados medicos") &&
+          elemento.descripcion.includes(diasCuidado)
       );
+      console.log(buscar2);
+      costoCuidado = buscar2[0].precio;
+      msj = buscar2.map(mensajes);
+      //console.log(msj);
+      alert(msj);
     }
   }
   alert(
@@ -137,6 +214,7 @@ function cuidadosMedicos() {
   return { diasCuidado, costoCuidado };
 }
 
+//Eleccion de tipo de transporte para el servicio transporte
 function transporteHospital() {
   let valido = false;
   while (!valido) {
@@ -146,22 +224,27 @@ function transporteHospital() {
     console.log("tipo transporte antes del switch: " + tipoTransporte);
     switch (tipoTransporte) {
       case "1":
-        costoTransporte = 80;
         tipoTransporte = "Coche Exclusivo";
         valido = true;
-        console.log("transporte coche en el switch: $" + costoTransporte);
         break;
       case "2":
-        costoTransporte = 60;
+        if (!descuentoAplicado) {
+          alert(
+            "Ha recibido un descuento del 10% sobre el costo de $60 del mismo, por haber elegido el transporte Ambulancia"
+          );
+          alert(
+            "El descuento permanecerá aplicado incluso si vuelve a elegir ésta opción"
+          );
+          aplicarDescuento(serviciosArray);
+          descuentoAplicado = true; // Marcar que el descuento ya se aplicó
+        }
         tipoTransporte = "Ambulancia";
         valido = true;
         console.log("transporte ambulancia en el switch: $" + costoTransporte);
         break;
       case "3":
-        costoTransporte = 20;
         tipoTransporte = "Transporte Publico";
         valido = true;
-        console.log("transporte publico en el switch: $" + costoTransporte);
         break;
       default:
         alert(
@@ -170,13 +253,15 @@ function transporteHospital() {
         break;
     }
 
-    if (valido && costoTransporte > 0) {
-      alert(
-        "Seleccionaste " +
-          tipoTransporte +
-          " de transporte para llegar al hospital, el precio es de: $" +
-          costoTransporte
-      );
+    if (valido) {
+      //Filtra en el array de servicios, lo que desea el paciente
+      const buscar3 = buscarServicio(tipoTransporte);
+      console.log(buscar3);
+
+      costoTransporte = buscar3[0].precio;
+      msj = buscar3.map(mensajes);
+      //console.log(msj);
+      alert(msj);
     }
   }
 
@@ -187,37 +272,28 @@ function transporteHospital() {
   return { tipoTransporte, costoTransporte };
 }
 
+//Presupuesto total de los servicios seleccionados
 function calcularPresupuesto() {
   let sumaTotal = costoInternacion + costoCuidado + costoTransporte;
   console.log("Costo total estimado para la internación: $" + sumaTotal);
   alert(
-    "Sr/a " +
-      nombrePaciente +
-      ", su costo total estimado para la internación es: \n\n- Estadía en el hospital: " +
-      noches +
-      " noches - $" +
-      costoInternacion +
-      "\n\n- Cuidados médicos: " +
-      diasCuidado +
-      " días - $" +
-      costoCuidado +
-      "\n\n- Transporte: " +
-      tipoTransporte +
-      " - $" +
-      costoTransporte +
-      "\n\nPresupuesto final: $" +
-      sumaTotal
+    `Sr/a ${nombrePaciente}, su costo total estimado para la internación es:
+
+  - Internación en el hospital: ${noches} noches - $${costoInternacion}
+  - Cuidados médicos: ${diasCuidado} días - $${costoCuidado}
+  - Transporte: ${tipoTransporte} - $${costoTransporte}
+
+  Presupuesto final: $${sumaTotal}`
   );
 }
 
+// Ejecución principal del simulador
 function ejecutarSimulador() {
   saludar();
   let opcion;
   while (opcion !== "5") {
     opcion = prompt(
-      "Sr/a " +
-        nombrePaciente +
-        ", bienvenido/a al menú del Hospital Privado M. Quiroga.\nPor favor, seleccione una opción:\n\n1. Internación Hospitalaria\n2. Cuidados Médicos\n3. Transporte al Hospital\n4. Calcular Presupuesto de Internación\n5. Salir"
+      `Sr/a ${nombrePaciente}, bienvenido/a al menú del Hospital Privado M. Quiroga.\nPor favor, seleccione una opción:\n\n1. Internación Hospitalaria\n2. Cuidados Médicos\n3. Transporte al Hospital\n4. Calcular Presupuesto de Internación\n5. Salir`
     );
     switch (opcion) {
       case "1":
@@ -246,92 +322,11 @@ function ejecutarSimulador() {
 
 ejecutarSimulador();
 
-// Pre-entrega 2 :
-
-// Array de servicios
-const serviciosArray = [
-  {
-    nombre: "Internacion",
-    descripcion: "Estadia en el hospital por 4 noches",
-    precio: 350,
-  },
-  {
-    nombre: "Internacion",
-    descripcion: "Estadia en el hospital por 5 noches",
-    precio: 450,
-  },
-  {
-    nombre: "Internacion",
-    descripcion: "Estadia en el hospital por 6 noches",
-    precio: 550,
-  },
-  {
-    nombre: "Internacion",
-    descripcion: "Estadia en el hospital por 7 noches",
-    precio: 650,
-  },
-  {
-    nombre: "Internacion",
-    descripcion: "Estadia en el hospital por 8 noches",
-    precio: 750,
-  },
-  {
-    nombre: "Cuidados Médicos",
-    descripcion: "Costo por 5 dias de cuidados medicos",
-    precio: 400,
-  },
-  {
-    nombre: "Cuidados Médicos",
-    descripcion: "Costo por 6 dias de cuidados medicos",
-    precio: 450,
-  },
-  {
-    nombre: "Cuidados Médicos",
-    descripcion: "Costo por 7 dias de cuidados medicos",
-    precio: 500,
-  },
-  {
-    nombre: "Cuidados Médicos",
-    descripcion: "Costo por 8 dias de cuidados medicos",
-    precio: 550,
-  },
-  {
-    nombre: "Transporte",
-    descripcion: "Costo del transporte Coche Exclusivo al hospital",
-    precio: 80,
-  },
-  {
-    nombre: "Transporte",
-    descripcion: "Costo del transporte Ambulancia al hospital",
-    precio: 60,
-  },
-  {
-    nombre: "Transporte",
-    descripcion: "Costo del transporte Transporte Publico al hospital",
-    precio: 20,
-  },
-];
-console.log(serviciosArray);
-
-// Función para buscar un servicio por nombre, solamente mostrará el primer servicio que coincida
-function buscarServicioPorNombre(arr, servicio) {
-  return arr.find((el) => el.nombre.includes(servicio));
-}
-
-// Función para buscar y filtrar un servicio por nombre, mostrará todos los servicios que coincidan
-function buscarServicioPorNombre2(arr, servicio) {
-  return arr.filter((el) => el.nombre.includes(servicio));
-}
-
+/*
 // Función para buscar y filtrar servicios por precio hasta un maximo deseado
 function filtrarServiciosPorPrecio(arr, maxPrecio) {
   return arr.filter((el) => el.precio <= maxPrecio);
 }
-
-let buscar = buscarServicioPorNombre(serviciosArray, "Internacion");
-console.log(buscar);
-let buscar2 = buscarServicioPorNombre2(serviciosArray, "Int");
-console.log(buscar2);
 
 let filtrar1 = filtrarServiciosPorPrecio(serviciosArray, 400);
 let filtrar2 = filtrarServiciosPorPrecio(serviciosArray, 20);
@@ -362,8 +357,8 @@ function aplicarDescuento(arr) {
 }
 
 const transporteConDescuento = aplicarDescuento(serviciosArray);
-console.log(transporteConDescuento);
-
+console.log(transporteConDescuento); */
+/* 
 // Clase Servicio para agregar nuevos servicios al array original
 class Servicio {
   constructor(nombre, descripcion, precio) {
@@ -393,3 +388,4 @@ const precioTotal = Math.round(
 console.log(
   `El precio total de los servicios (incluyendo nuevos servicios, aumento al Coche exclusivo y descuento a la Ambulancia) es: $${precioTotal}`
 );
+ */
