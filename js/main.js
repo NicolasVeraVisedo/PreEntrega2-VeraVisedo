@@ -37,16 +37,16 @@ serviciosArray.push(
   new Servicio("Internacion", "8 noches de internacion", 750)
 );
 serviciosArray.push(
-  new Servicio("Cuidados medicos", "4 dias de cuidados medicos", 400)
+  new Servicio("Cuidados medicos", "5 dias de cuidados medicos", 400)
 );
 serviciosArray.push(
-  new Servicio("Cuidados medicos", "5 dias de cuidados medicos", 450)
+  new Servicio("Cuidados medicos", "6 dias de cuidados medicos", 450)
 );
 serviciosArray.push(
-  new Servicio("Cuidados medicos", "6 dias de cuidados medicos", 500)
+  new Servicio("Cuidados medicos", "7 dias de cuidados medicos", 500)
 );
 serviciosArray.push(
-  new Servicio("Cuidados medicos", "7 dias de cuidados medicos", 550)
+  new Servicio("Cuidados medicos", "8 dias de cuidados medicos", 550)
 );
 serviciosArray.push(
   new Servicio(
