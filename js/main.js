@@ -98,7 +98,7 @@ function saludar() {
   alert("¡Bienvenido/a al servicio de Internación del Hospital M. Quiroga!");
   while (!nombreValido) {
     nombrePaciente = prompt("Por favor, ingrese su nombre y apellido:");
-    if (nombrePaciente !== "" && nombrePaciente !== null) {
+    if (nombrePaciente && nombrePaciente.trim()) {
       console.log("Nombre del Paciente: " + nombrePaciente);
       nombreValido = true;
     } else {
@@ -216,10 +216,12 @@ function cuidadosMedicos() {
 
 //Eleccion de tipo de transporte para el servicio transporte
 function transporteHospital() {
+  let tipoPropio;
   let valido = false;
+  let verftipoPropio = false;
   while (!valido) {
     tipoTransporte = prompt(
-      "Ingrese el tipo de transporte para llegar al hospital : \n\n 1-Coche Exclusivo \n\n 2-Ambulancia \n\n 3-Transporte público"
+      "Ingrese el tipo de transporte para llegar al hospital : \n\n 1-Coche Exclusivo \n\n 2-Ambulancia \n\n 3-Transporte público \n\n 4-Ingresar su propio transporte"
     );
     console.log("tipo transporte antes del switch: " + tipoTransporte);
     switch (tipoTransporte) {
@@ -240,11 +242,35 @@ function transporteHospital() {
         }
         tipoTransporte = "Ambulancia";
         valido = true;
-        console.log("transporte ambulancia en el switch: $" + costoTransporte);
         break;
       case "3":
         tipoTransporte = "Transporte Publico";
         valido = true;
+        break;
+      case "4":
+        while (!verftipoPropio) {
+          tipoPropio = prompt("Ingrese su tipo de transporte:");
+          if (tipoPropio && tipoPropio.trim() && isNaN(tipoPropio)) {
+            tipoTransporte = tipoPropio;
+            valido = true;
+            verftipoPropio = true;
+            serviciosArray.push(
+              new Servicio(
+                "Transporte",
+                "Transporte " + tipoPropio + " para traslado al hospital",
+                0
+              )
+            ); // Agregar el transporte propio al array de servicios
+            alert(
+              `Se ha agregado su propio transporte (${tipoPropio}) al registro.`
+            );
+          } else {
+            alert(
+              "Por favor, ingrese su tipo de transporte propio correctamente."
+            );
+          }
+        }
+
         break;
       default:
         alert(
